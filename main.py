@@ -1,15 +1,14 @@
-from pprint import pprint
-
-from game import Game
 from paperbot import PaperBot
 from rockbot import RockBot
+from scissorsbot import ScissorsBot
+from tournament import Tournament
 
 def main():
-  bot1 = PaperBot()
-  bot2 = RockBot()
-  game = Game(bot1, bot2)
-  result = game.play()
-  pprint(result)
+  tournament = Tournament()
+  tournament.addBot(PaperBot())
+  tournament.addBot(RockBot())
+  tournament.addBot(ScissorsBot())
+  tournament.play()
 
 if __name__ == '__main__':
   main()
