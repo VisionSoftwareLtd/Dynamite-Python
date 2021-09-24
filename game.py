@@ -15,7 +15,7 @@ class Game:
       if moves[i] == 'D':
         self.__dynamite[i] -= 1
       if self.__dynamite[i] < 0:
-        raise BotError(i, 'dynamite')
+        raise BotError(i, 'No more dynamite!')
 
   def update_gamestate(self, moves):
     self.__gameState[0]['rounds'].append({'p1': moves[0], 'p2': moves[1]})
@@ -24,7 +24,7 @@ class Game:
   def update_score(self, moves):
     for i in range(2):
       if VALID_MOVES.index(moves[i]) == -1:
-        raise BotError(i, 'invalidMove', moves[i])
+        raise BotError(i, f'Invalid move : {moves[i]}')
 
     if moves[0] == moves[1]:
       self.__nextRoundPoints += 1
@@ -70,9 +70,12 @@ class Game:
 
       moves = [self.__bots[0].make_move(self.__gameState[0]), self.__bots[1].make_move(self.__gameState[1])]
 
-      self.update_gamestate(moves)
-      self.update_dynamite(moves)
-      self.update_score(moves)
-
-  def handle_bot_error(self, err, playerNum):
-    raise BotError(playerNum, 'error', err)
+      try:
+        self.update_gamestate(moves)
+        self.update_dynamite(moves)
+        self.update_score(moves)
+      except BotError as botError:
+        print(f'Bot error from {self.__bots[botError.playerNum]} - {botError.errorString}')
+        print(f'{self.__bots[1 - botError.playerNum]} declared the winner')
+        self.__score[1 - botError.playerNum] = SCORE_TO_WIN
+        self.__score[botError.playerNum] = 0
