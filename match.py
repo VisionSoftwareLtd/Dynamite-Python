@@ -9,6 +9,8 @@ class Match:
     return self.__bots[botNumber]
 
   def play(self):
+    for bot in self.__bots:
+      bot.__init__()
     self.__result = Game(self.__bots[0], self.__bots[1]).play()
 
   def getResult(self):
