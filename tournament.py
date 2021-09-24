@@ -26,7 +26,7 @@ class Tournament:
     print('After each match, press ENTER to play next match')
     for count in range(len(matches)):
       match = matches[count]
-      print(f'Match {count+1} of {len(matches)} - {match.getVsText()} : ', end='')
+      print(f'Match {str(count+1):>2} of {len(matches)} - {match.getVsText()} : ', end='')
       time.sleep(1)
       for i in range(3):
         time.sleep(0.5)
